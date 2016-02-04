@@ -1,0 +1,17 @@
+Source: netatalk
+Section: net
+Priority: extra
+Maintainer: Gerco Dries <gerco@gdries.nl>
+Build-Depends: debhelper (>=8.0.0), autotools-dev, libdb-dev (>=4.8), libcrack2-dev, libpcre3, pkg-config, libgcrypt11-dev(>=1.2.3), libavahi-common-dev(>=0.6), libavahi-client-dev(>=0.6), hardening-includes, cdbs, libevent-dev (>=2.0), libldap2-dev, libpam0g-dev, libacl1-dev, libtracker-sparql-1.0-0, libtracker-miner-1.0-0, libkrb5-dev, libtdb-dev, libacl1-dev, systemtap-sdt-dev, libdbus-1-dev, libdbus-glib-1-dev, libglib2.0-dev, tracker
+Standards-Version: 3.9.5
+Homepage: http://netatalk.sourceforge.net/
+#Vcs-Git: git://git.debian.org/collab-maint/netatalk.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/netatalk.git;a=summary
+
+Package: netatalk
+Section: net
+Architecture: any
+Depends: ${shlibs:Depends}, ${perl:Depends}, ${misc:Depends}, ${cdbs:Depends}, libacl1
+Recommends: ${cdbs:Recommends}, acl
+Suggests: ${cdbs:Suggests}, avahi-daemon
+Description: Netatalk is a freely-available Open Source AFP fileserver. Any *NIXsystem running Netatalk is capable of serving many Macintosh clients simultaneously as an AppleShare file server (AFP)

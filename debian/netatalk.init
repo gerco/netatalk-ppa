@@ -1,0 +1,66 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          netatalk
+# Required-Start:    $remote_fs $syslog
+# Should-Start:      avahi-daemon
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+### END INIT INFO
+#
+# netatalk      Netatalk 3.0.3 initscript
+#
+
+
+NAME=netatalk
+DAEMON=/usr/sbin/$NAME
+STOP_TIMEOUT=30
+
+export PATH="${PATH:+$PATH:}/sbin"
+
+[ -x $DAEMON ] || exit 0
+
+[ -e /etc/default/$NAME ] && . /etc/default/$NAME
+
+. /lib/lsb/init-functions
+
+start_daemon () {
+    if [ $ENABLE_DAEMON != 1 ]; then
+        log_daemon_msg "(disabled, see /etc/default/${NAME})"
+    else    
+        start-stop-daemon --start $START_STOP_OPTIONS --exec $DAEMON -- $OPTIONS
+    fi
+}
+
+case "$1" in
+    start)
+        log_daemon_msg "Starting netatalk daemon" "$NAME"
+        start_daemon
+        log_end_msg 0
+        ;;
+    stop)
+        log_daemon_msg "Stopping netatalk daemon" "$NAME"
+        start-stop-daemon --stop --quiet \
+            --exec $DAEMON --retry $STOP_TIMEOUT \
+            --oknodo
+        log_end_msg 0
+        ;;
+    restart|force-reload)
+        log_daemon_msg "Restarting netatalk daemon" "$NAME"
+        start-stop-daemon --stop --quiet \
+            --exec $DAEMON --retry $STOP_TIMEOUT \
+            --oknodo
+        start_daemon
+        log_end_msg 0
+        ;;
+    status)
+        status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
+        ;;
+    *)
+        echo "Usage: /etc/init.d/$NAME {start|stop|force-reload|restart|status}"
+        exit 2
+        ;;
+esac
+
+exit 0
+
